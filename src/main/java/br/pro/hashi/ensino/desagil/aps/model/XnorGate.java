@@ -20,6 +20,7 @@ public class XnorGate extends Gate {
         NandGate nandRight = new NandGate();
         nandRight.connect(0, nandTop);
         nandRight.connect(1, nandBottom);
+
         nandNot = new NandGate();
         nandNot.connect(0, nandRight);
         nandNot.connect(1, nandRight);
