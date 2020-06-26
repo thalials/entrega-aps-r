@@ -30,7 +30,6 @@ public class View extends JPanel implements ActionListener {
         add(gateView);
     }
 
-
     @Override
     public void actionPerformed(ActionEvent event) {
         remove(gateView);

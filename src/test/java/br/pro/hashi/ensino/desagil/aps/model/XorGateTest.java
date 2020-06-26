@@ -1,21 +1,20 @@
-package br.pro.hashi.ensino.desagil.aps;
+package br.pro.hashi.ensino.desagil.aps.model;
 
-import br.pro.hashi.ensino.desagil.aps.model.NandGate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class NandGateTest {
+public class XorGateTest {
     @Test
-    public void whenReceivingFalseAndFalseShouldReturnTrue() {
-        NandGate gate = new NandGate();
+    public void whenReceivingFalseAndFalseShouldReturnFalse() {
+        XorGate gate = new XorGate();
         gate.connect(0, new EmitterFalse());
         gate.connect(1, new EmitterFalse());
-        Assertions.assertTrue(gate.read());
+        Assertions.assertFalse(gate.read());
     }
 
     @Test
     public void whenReceivingFalseAndTrueShouldReturnTrue() {
-        NandGate gate = new NandGate();
+        XorGate gate = new XorGate();
         gate.connect(0, new EmitterFalse());
         gate.connect(1, new EmitterTrue());
         Assertions.assertTrue(gate.read());
@@ -23,7 +22,7 @@ public class NandGateTest {
 
     @Test
     public void whenReceivingTrueAndFalseShouldReturnTrue() {
-        NandGate gate = new NandGate();
+        XorGate gate = new XorGate();
         gate.connect(0, new EmitterTrue());
         gate.connect(1, new EmitterFalse());
         Assertions.assertTrue(gate.read());
@@ -31,7 +30,7 @@ public class NandGateTest {
 
     @Test
     public void whenReceivingTrueAndTrueShouldReturnFalse() {
-        NandGate gate = new NandGate();
+        XorGate gate = new XorGate();
         gate.connect(0, new EmitterTrue());
         gate.connect(1, new EmitterTrue());
         Assertions.assertFalse(gate.read());

@@ -1,6 +1,4 @@
-package br.pro.hashi.ensino.desagil.aps;
-
-import br.pro.hashi.ensino.desagil.aps.model.Emitter;
+package br.pro.hashi.ensino.desagil.aps.model;
 
 public class EmitterFalse implements Emitter {
     @Override

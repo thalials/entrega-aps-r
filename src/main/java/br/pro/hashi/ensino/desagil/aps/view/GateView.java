@@ -1,6 +1,7 @@
 package br.pro.hashi.ensino.desagil.aps.view;
 
 import br.pro.hashi.ensino.desagil.aps.model.Gate;
+import br.pro.hashi.ensino.desagil.aps.model.Light;
 import br.pro.hashi.ensino.desagil.aps.model.Switch;
 
 import javax.swing.*;
@@ -13,12 +14,10 @@ import java.net.URL;
 
 public class GateView extends FixedPanel implements ItemListener, MouseListener {
     private final Gate gate;
+    private final Light light;
     private final JCheckBox[] inputs;
-    private final JCheckBox result;
     private final Image image;
     private final Switch[] switches;
-    private Color color;
-    private Color trueColor;
 
     public GateView(Gate gate) {
         super();
@@ -34,7 +33,8 @@ public class GateView extends FixedPanel implements ItemListener, MouseListener 
             gate.connect(i, switches[i]);
         }
 
-        result = new JCheckBox();
+        light = new Light(255, 0, 0);
+        light.connect(0, gate);
 
         int marginLeft, marginTop;
 
@@ -58,8 +58,6 @@ public class GateView extends FixedPanel implements ItemListener, MouseListener 
 //        color = Color.BLACK;
         addMouseListener(this);
 
-        result.setEnabled(false);
-
         update();
     }
 
@@ -71,22 +69,8 @@ public class GateView extends FixedPanel implements ItemListener, MouseListener 
                 switches[i].turnOff();
             }
         }
-
-        boolean result = this.gate.read();
-        if (result) {
-            if (trueColor == null) {
-                this.color = Color.RED;
-            } else {
-                this.color = this.trueColor;
-            }
-
-        } else {
-            this.color = Color.BLACK;
-        }
-
         // ...e chamamos repaint para atualizar a tela. rsrsrs
         repaint();
-        this.result.setSelected(result);
     }
 
     private boolean clickInsideCircle(int x, int y) {
@@ -104,15 +88,21 @@ public class GateView extends FixedPanel implements ItemListener, MouseListener 
 
         // Se o clique foi dentro do circulo colorido/preto...
         if (clickInsideCircle(x, y)) {
-            /*
-             * (x-x0)² + (y-y0)² <= r²
-             * ...então abrimos a janela seletora de cor...
-             */
-            this.trueColor = JColorChooser.showDialog(this, null, this.color);
+            if (clickInsideCircle(x, y)) {
+                /*
+                 * (x-x0)² + (y-y0)² <= r²
+                 * ...então abrimos a janela seletora de cor...
+                 */
+//            this.trueColor = JColorChooser.showDialog(this, null, this.color);
+                Color oldColor = light.getColor();
+                Color newColor = JColorChooser.showDialog(this, null, oldColor);
 
-
-            // ...e chamamos repaint para atualizar a tela.
-            update();
+                if (newColor != null) {
+                    light.setColor(newColor);
+                }
+                // ...e chamamos repaint para atualizar a tela.
+                repaint();
+            }
         }
     }
 
@@ -150,7 +140,8 @@ public class GateView extends FixedPanel implements ItemListener, MouseListener 
 
         g.drawImage(image, 20, 25, 100, 50, this);
 
-        g.setColor(this.color);
+        g.setColor(light.getColor());
+//        g.fillRect(120,30,40,40); // linha comentada
         g.fillOval(120, 40, 20, 20);
 
         getToolkit().sync();
